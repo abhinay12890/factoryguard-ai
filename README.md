@@ -1,5 +1,4 @@
-# FactoryGuard AI 
-IoT Predictive Maintenance Engine
+# FactoryGuard AI - IoT Predictive Maintenance Engine
 
 ## Project Overview
 This project implements a **production-ready, end-to-end machine learning system** to predict .  
@@ -23,7 +22,7 @@ The project goes beyond model training and covers:
 ## Project Structure
 ```
 ├── data/
-    ├──raw
+    ├──raw                              # Directory containing datasets
         ├── RUL_FD001.txt
         ├── test_FD001.txt
         ├── train_FD001.txt
@@ -40,14 +39,15 @@ The project goes beyond model training and covers:
 ```
 ---
 ## Data Preprocessing
+
 This dataset contains columns like engine_id, cycle, operating_setting (3 columns), sensor columns(21 columns)
-    - Removed columns have near zero variance
-    - Calculated `max_cycle` per engine
-    - Computed `RUL (Remaining Usable Life)` from `max_cycle` and `cycle` columns
-    - Created lag features for all sensors `t-1` & `t-2` w.r.t `engine_id`
-    - Created Rolling mean, Standard Deviation with window size 1,6,12 and Exponential Moving Average with 12 window size
-    - Created `label_24` column from `RUL` column where RUL<24 indicating failure in next 24 hrs.
-    - Dropped Null values created by lag features.
+- Removed columns have near zero variance
+- Calculated `max_cycle` per engine
+- Computed `RUL (Remaining Usable Life)` from `max_cycle` and `cycle` columns
+- Created lag features for all sensors `t-1` & `t-2` w.r.t `engine_id`
+- Created Rolling mean, Standard Deviation with window size 1,6,12 and Exponential Moving Average with 12 window size
+- Created `label_24` column from `RUL` column where RUL<24 indicating failure in next 24 hrs
+- Dropped Null values created by lag features
 ---
 ## Modeling
 Dropped `cycle`,`max_cycle` and `RUL` columns to prevent memorization and they already reflect `label_24` column.
@@ -56,11 +56,11 @@ Training the model using all 117 engineered features was sub-optimal due to redu
 
 GroupShuffleSplit was performed to split data into both train and validation sets. Class weights is passed to both models to mitigate class imbalance during training.
 
+---
+
 ### Baseline Model (RandomForestClassifier) performance evaluated on validation dataset
 
 **Average Precision-Recall (PR) Score:** `0.9339`
-
----
 
 #### Classification Report
 
@@ -72,15 +72,13 @@ GroupShuffleSplit was performed to split data into both train and validation set
 | **Macro Avg** | 0.92 | 0.90 | 0.91 | 5,794 |
 | **Weighted Avg** | 0.96 | 0.96 | 0.96 | 5,794 |
 
----
-
 **ROC–AUC Score:** `0.9887`
+
+---
 
 ### Production Model (LGBMClassifier) performance evaluated on validation dataset
 
 **Final Precision–Recall (PR) Score:** `0.9356`
-
----
 
 #### Classification Report
 
@@ -91,8 +89,6 @@ GroupShuffleSplit was performed to split data into both train and validation set
 | **Accuracy** |  |  | **0.95** | **5,794** |
 | **Macro Avg** | 0.88 | 0.93 | 0.90 | 5,794 |
 | **Weighted Avg** | 0.96 | 0.95 | 0.95 | 5,794 |
-
----
 
 **Final ROC–AUC Score:** `0.9882`
 
@@ -106,19 +102,15 @@ Based on the graph, **optimal threshold 0.6** is selected for improved precision
 
 **Precision–Recall (PR) Score:** `0.9356`
 
----
-
 ###### Classification Report
 
 | Class | Precision | Recall | F1-Score | Support |
 |------:|----------:|-------:|---------:|--------:|
 | 0 (Healthy) | 0.98 | 0.97 | 0.97 | 5,044 |
-| 1 (Failure) | 0.79 | 0.88 | 0.83 | 750 |
+| 1 (Failure) | 0.79 (↑2%) | 0.88 (↓2%) | 0.83 | 750 |
 | **Accuracy** |  |  | **0.95** | **5,794** |
 | **Macro Avg** | 0.89 | 0.92 | 0.90 | 5,794 |
 | **Weighted Avg** | 0.96 | 0.95 | 0.96 | 5,794 |
-
----
 
 **ROC–AUC Score:** `0.9297`
 
