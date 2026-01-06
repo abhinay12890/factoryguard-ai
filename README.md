@@ -50,7 +50,7 @@ This dataset contains columns like engine_id, cycle, operating_setting (3 column
 - Dropped Null values created by lag features
 ---
 ## Modeling
-Dropped `cycle`,`max_cycle` and `RUL` columns to prevent memorization and they already reflect `label_24` column.
+Dropped `cycle`,`max_cycle` and `RUL` columns to prevent memorization as they already reflect `label_24` column.
 ### Feature Selection
 Training the model using all 117 engineered features was sub-optimal due to redundancy and overfitting risk. To address this, a LightGBM model with class weights was trained using StratifiedGroupKFold cross-validation to prevent engine-level data leakage between training and validation sets. Feature importances were extracted from each fold, aggregated across folds, and weighted by the corresponding PR-AUC score to prioritize features that consistently contributed to strong minority-class performance there by selecting top 10% of features with higher importances.
 
