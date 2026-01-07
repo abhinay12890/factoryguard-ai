@@ -94,7 +94,7 @@ GroupShuffleSplit was performed to split data into both train and validation set
 
 ---
 #### LGB Model performance across different thresholds.
-![Performance](https://github.com/user-attachments/assets/8f0dcba4-d16e-4a1b-8d2b-3dba4d18f449)
+
 
 Based on the graph, **optimal threshold 0.6** is selected for improved precision to reduce false alarms while still providing early detection
 
