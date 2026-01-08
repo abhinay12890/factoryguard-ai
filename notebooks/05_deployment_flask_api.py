@@ -43,7 +43,6 @@ def predict():
     # Ensure correct feature order
     X = df[MODEL_FEATURES]
 
-    # ✅ THIS IS THE LINE YOUR TEAMMATE MENTIONED
     prob = final_model.predict_proba(X)[0][1]
 
     # Risk decision
