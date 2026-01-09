@@ -155,7 +155,7 @@ The Flask-based inference API was benchmarked using repeated requests with ident
 **Notes:**
 - Cold start includes model loading and runtime initialization.
 - Warm latency reflects steady-state performance.
-- Server latency measures preprocessing + LightGBM inference only.
+- Server latency measures LightGBM inference only.
 - Client latency measures end-to-end HTTP request/response time.
 
 
