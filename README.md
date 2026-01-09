@@ -140,6 +140,24 @@ The script sends predefined LOW, MEDIUM, HIGH, and CRITICAL payloads/ User-defin
     * Failure probability
     * Risk level
     * Client-side latency
+### API Performance
+
+The Flask-based inference API was benchmarked using repeated requests with identical sensor inputs.
+
+#### Latency Metrics (Local Deployment)
+
+| Metric                | Latency |
+|----------------------|---------|
+| Cold start (first request) | ~13 ms |
+| Avg server latency (warm)  | ~1.4 ms |
+| Avg client latency (warm)  | ~3.2 ms |
+
+**Notes:**
+- Cold start includes model loading and runtime initialization.
+- Warm latency reflects steady-state performance.
+- Server latency measures preprocessing + LightGBM inference only.
+- Client latency measures end-to-end HTTP request/response time.
+
 
 **Web UI Service (Demonstration Layer)**\
 The UI service provides a lightweight HTML interface for manual and preset-based model evaluation using `ui_app.py` & template `templates/index.html`.
